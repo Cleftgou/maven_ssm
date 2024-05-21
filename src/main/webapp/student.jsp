@@ -35,7 +35,7 @@
 
 <table border="3px">
     <tr>
-        <th>学生图片</th>
+        <th>学生照片</th>
         <th>学生编号</th>
         <th>学生姓名</th>
         <th>学生年龄</th>
