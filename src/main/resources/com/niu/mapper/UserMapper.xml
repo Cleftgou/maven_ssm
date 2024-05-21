@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.niu.mapper.UserMapper">
+    <select id="selectAll" resultType="User">
+        select * from user;
+    </select>
+
+    <insert id="insert">
+        insert into user(u_id, u_name, u_pwd)
+        values (null, #{uname}, #{upwd})
+    </insert>
+
+    <delete id="deleteById">
+        delete from user where u_id = #{uid}
+    </delete>
+
+    <update id="update">
+        update user
+        set u_name = #{uname}, u_pwd = #{upwd}
+        where  u_id = #{uid}
+    </update>
+
+    <select id="selectById">
+        select * from user where u_id = #{uid}
+    </select>
+
+    <select id="login" resultType="User">
+        select * from user where u_name = #{uname} and u_pwd = #{upwd}
+    </select>
+</mapper>

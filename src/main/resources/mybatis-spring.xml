@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--引入属性文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <!--数据库连接池，JNDI\C3P0\DRUID-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <!--set注入-->
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!--最大连接数-->
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+        <!--最小连接数，一直能用-->
+        <property name="minIdle" value="${jdbc.minIdle}"/>
+        <property name="defaultAutoCommit" value="${jdbc.commit}"/>
+    </bean>
+
+    <!--创建sqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--注入属性-->
+        <!--注入数据库连接池-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--注入mybatis配置文件-->
+        <property name="configLocation" value="classpath:mybatis_config.xml"/>
+        <!--映射文件-->
+        <property name="mapperLocations" value="classpath:com/niu/mapper/*.xml"/>
+        <!--实体类的别名-->
+        <property name="typeAliasesPackage" value="com.niu.pojo"/>
+    </bean>
+
+    <!--代理对象的注解扫描-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--对应的包-->
+        <property name="basePackage" value="com.niu.mapper"/>
+    </bean>
+
+    <!--组件扫描service-->
+    <context:component-scan base-package="com.niu.service"/>
+
+    <!--aop声明式事务-->
+    <!--事务管理器对象-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--要管理的数据源-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--设置事务的属性-->
+    <tx:advice id="myAdvice">
+        <!--设置事务的属性
+            传播行为
+            隔离级别
+        -->
+        <tx:attributes>
+            <!--设置属性的方法-->
+            <!--必须提交事务(传播行为)-->
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="del*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <!--提交与否都可以，序列化-->
+            <tx:method name="get*" propagation="SUPPORTS" isolation="SERIALIZABLE"/>
+            <!--起名字比较特别-->
+            <tx:method name="*" propagation="REQUIRED" isolation="SERIALIZABLE"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--aop切面-->
+    <aop:config>
+        <!--配置切点-->
+        <aop:pointcut id="myPointcut" expression="execution(* com.niu.service..*.*(..))"/>
+        <aop:advisor advice-ref="myAdvice" pointcut-ref="myPointcut"/>
+    </aop:config>
+
+
+</beans>

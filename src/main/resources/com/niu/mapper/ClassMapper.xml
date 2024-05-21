@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.niu.mapper.ClassMapper">
+    <resultMap id="ClassMap" type="Class">
+        <id property="cid" column="c_id"/>
+        <result property="cname" column="c_name"/>
+        <result property="ccontent" column="c_content"/>
+    </resultMap>
+    
+    <select id="selectAll" resultType="Class">
+        select * from class;
+    </select>
+
+    <insert id="insert">
+        insert into class(c_id, c_name, c_content)
+        values (null, #{cname}, #{ccontent});
+    </insert>
+
+    <delete id="deleteById">
+        delete
+        from class
+        where c_id = #{cid}
+    </delete>
+
+    <update id="update">
+        update class
+        set c_name = #{cname},
+            c_content = #{ccontent}
+        where c_id = #{cid}
+    </update>
+
+    <select id="selectById" resultType="Class">
+        select * from class where c_id = #{cid};
+    </select>
+
+    <select id="selectMsg" resultType="Class">
+        select * from class where c_name = #{cname} and c_content = #{ccontent}
+    </select>
+</mapper>

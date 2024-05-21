@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.niu.mapper.StudentMapper">
+
+    <resultMap id="stuMap" type="Student">
+        <id column="stuNo" property="stuNo"/>
+        <result column="stuName" property="stuName"/>
+        <result column="stuAge" property="stuAge"/>
+        <result column="stuImg" property="stuImg"/>
+        <association property="cla" resultMap="com.niu.mapper.ClassMapper.ClassMap">
+        </association>
+    </resultMap>
+
+    <!--根据学号查学生详情-->
+    <select id="selectOneStudentByStuNo"  resultMap="stuMap">
+        select *
+        from student stu left join class cla on stu.cid = cla.c_id
+        where stuNo = #{stuNo}
+    </select>
+
+    <!-- 查询全部学生的sql语句: -->
+    <select id="selectAll"  resultMap="stuMap">
+        select stu.stuNo,stu.stuName,stu.stuAge,stu.stuImg,clazz.c_id,clazz.c_name,clazz.c_content
+        from student stu,class clazz
+        where stu.cid = clazz.c_id;
+    </select>
+
+    <!--任意条件查询-->
+    <select id="getStuBy" resultMap="stuMap">
+        select stu.stuNo,stu.stuName,stu.stuAge,clazz.c_id,clazz.c_name,clazz.c_content
+        from student stu,class clazz
+        <trim prefix="where" suffixOverrides="and|or">
+            <if test="true">
+                stu.cid = clazz.c_id and
+            </if>
+            <if test="stuName != null and stuName != ''">
+                stuName like concat('%', #{stuName}, '%') and
+            </if>
+            <if test="stuAge != null and stuAge != 0">
+                stuAge = #{stuAge} and
+            </if>
+            <if test="c_name != null and c_name != ''">
+                c_name like concat('%', #{c_name}, '%') and
+            </if>
+            <if test="c != null and c != ''">
+                c_content like concat('%', #{c}, '%')
+            </if>
+        </trim>
+    </select>
+
+    <!--按名字查询-->
+    <select id="getStuByName" resultMap="stuMap">
+        select stuNo, stuAge
+        from student
+        <where>
+            <if test="stuName != null and stuName != ''">
+                and stuName like concat('%', #{stuName}, '%')
+            </if>
+        </where>
+    </select>
+    
+    <select id="getStuByIds" resultMap="stuMap">
+        <include refid="selectAlls"/>
+        where stu.cid = clazz.c_id
+        <if test="ids != null and ids.size != 0">
+            and stuNo in
+            <foreach collection="ids" open="(" close=")" item="id" separator=",">
+                #{id}
+            </foreach>
+        </if>
+    </select>
+
+    <!--学生信息的录入-->
+    <insert id="addStu">
+        insert into student(stuName, stuAge, stuImg, cid) values (#{stuName}, #{stuAge}, #{stuImg}, #{cla.cid})
+    </insert>
+
+    <!--学生信息的删除-->
+    <delete id="delStu">
+        delete from student where stuNo = #{stuNo}
+    </delete>
+
+    <!--提取公共sql语句-->
+    <sql id="selectAlls">
+        select stu.stuNo,stu.stuName,stu.stuAge,clazz.c_id,clazz.c_name,clazz.c_content
+        from student stu,class clazz
+    </sql>
+
+</mapper>
