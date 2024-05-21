@@ -51,7 +51,7 @@
             <td>${student.stuNo}</td>
             <td>${student.stuName}</td>
             <td>${student.stuAge}</td>
-            <td>${student.cla.cid}</td>
+            <td>${student.cla.cname}</td>
             <td>${student.cla.ccontent}</td>
             <td>
                 <a href="javascript:void(0)" onclick="delStu(${student.stuNo})">删除</a>
