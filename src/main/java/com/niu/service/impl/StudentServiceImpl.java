@@ -43,6 +43,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public boolean updateStu(Student stu) {
+        //修改成功返回true
+        return studentMapper.updateStu(stu) == 1;
+    }
+
+    @Override
     public boolean addStu(Student stu) {
         int i = studentMapper.addStu(stu);
         return i > 0;

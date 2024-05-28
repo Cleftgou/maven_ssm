@@ -36,6 +36,39 @@ public class StudentController {
         return modelAndView;
     }
 
+    //编辑功能
+    @PostMapping("/updateStu")
+    public String upload(Student student, @RequestParam("myFile") MultipartFile myFile, HttpSession session) throws IOException {
+        //上传文件的名字
+        String originalFilename = myFile.getOriginalFilename();
+
+        //判断这个文件名是否为空
+        if (!"".equals(originalFilename)) {
+            //获取路径
+            String realPath = session.getServletContext().getRealPath("/images/");
+
+            //把服务器路径封装成文件对象
+            File file = new File(realPath);
+            //文件不存在，则创建文件夹
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            //把路径加文件名封装一下
+            File sessionFile = new File(file, originalFilename);
+
+            //传递该文件的内容
+            myFile.transferTo(sessionFile);
+
+            //完成录入的过程
+            student.setStuImg(originalFilename);
+        }
+
+        studentService.updateStu(student);
+
+        //跳转回主页面
+        return "redirect:/StudentController/selectAll";
+    }
+
     @GetMapping("/delete/{stuNo}")
     public String delete(@PathVariable("stuNo") Integer stuNo) {
         studentService.delStu(stuNo);

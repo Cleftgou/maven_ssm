@@ -37,4 +37,7 @@ public interface StudentMapper {
 
     //根据学号查学生
     Student selectOneStudentByStuNo(Integer stuNo);
+
+    //真正的修改学生方法
+    int updateStu(Student student);
 }

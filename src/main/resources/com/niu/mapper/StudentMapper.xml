@@ -85,8 +85,19 @@
 
     <!--提取公共sql语句-->
     <sql id="selectAlls">
-        select stu.stuNo,stu.stuName,stu.stuAge,clazz.c_id,clazz.c_name,clazz.c_content
+        select stu.stuNo,stu.stuName,stu.stuAge,stu.stuImg,clazz.c_id,clazz.c_name,clazz.c_content
         from student stu,class clazz
     </sql>
+
+    <!--根据学号更新学生信息-->
+    <update id="updateStu">
+        update student set stuName = #{stuName},
+                           stuAge = #{stuAge},
+                           <if test="stuImg != null and stuImg != ''">
+                               stuImg = #{stuImg},
+                           </if>
+                           cid=#{cla.cid}
+        where stuNo = #{stuNo}
+    </update>
 
 </mapper>

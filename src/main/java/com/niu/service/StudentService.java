@@ -19,7 +19,11 @@ public interface StudentService {
     boolean delStu(int stuNo);
 
     //编辑学生的详情界面
+    //根据学号查询
     Student editStu(Integer stuNo);
+
+    //修改
+    boolean updateStu(Student stu);
 
     boolean addStu(Student stu);
 }
