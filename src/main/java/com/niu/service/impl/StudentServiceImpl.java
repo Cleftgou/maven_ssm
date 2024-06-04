@@ -1,5 +1,7 @@
 package com.niu.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.niu.mapper.StudentMapper;
 import com.niu.pojo.Student;
 import com.niu.service.StudentService;
@@ -52,6 +54,17 @@ public class StudentServiceImpl implements StudentService {
     public boolean addStu(Student stu) {
         int i = studentMapper.addStu(stu);
         return i > 0;
+    }
+
+    @Override
+    public PageInfo<Student> getStuByPage(int pageNow, int pageSize) {
+        //开启分页插件
+        PageHelper.startPage(pageNow, pageSize, "stuNo desc");
+        //调用全查功能，会自动分页
+        List<Student> students = studentMapper.selectAll();
+        //新建一个pageInfo对象
+        PageInfo<Student> pageInfo = new PageInfo<>(students);
+        return pageInfo;
     }
 
 

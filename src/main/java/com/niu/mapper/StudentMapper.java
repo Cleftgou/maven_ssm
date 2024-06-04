@@ -17,6 +17,7 @@ import java.util.Map;
 @Repository
 public interface StudentMapper {
     //查询全部的学生
+    //分页插件会把全查改成分页查询
     List<Student> selectAll();
 
     //根据任意条件查询学生(姓名，年龄，班级，班级简介)

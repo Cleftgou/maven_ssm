@@ -41,6 +41,16 @@
         <property name="mapperLocations" value="classpath:com/niu/mapper/*.xml"/>
         <!--实体类的别名-->
         <property name="typeAliasesPackage" value="com.niu.pojo"/>
+        <!--分页插件-->
+        <property name="plugins">
+            <array>
+                <!--分页插件的对象-->
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <!--合理化分页建议-->
+                    <property name="properties" value="reasonable=true"/>
+                </bean>
+            </array>
+        </property>
     </bean>
 
     <!--代理对象的注解扫描-->

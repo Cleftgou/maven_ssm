@@ -24,8 +24,7 @@
     <!-- 查询全部学生的sql语句: -->
     <select id="selectAll"  resultMap="stuMap">
         select stu.stuNo,stu.stuName,stu.stuAge,stu.stuImg,clazz.c_id,clazz.c_name,clazz.c_content
-        from student stu,class clazz
-        where stu.cid = clazz.c_id;
+        from student stu join class clazz on stu.cid = clazz.c_id;
     </select>
 
     <!--任意条件查询-->

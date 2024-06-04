@@ -1,5 +1,6 @@
 package com.niu.service;
 
+import com.github.pagehelper.PageInfo;
 import com.niu.pojo.Student;
 
 import java.util.List;
@@ -26,4 +27,7 @@ public interface StudentService {
     boolean updateStu(Student stu);
 
     boolean addStu(Student stu);
+
+    //定义一个分页的业务
+    PageInfo<Student> getStuByPage(int pageNow, int pageSize);
 }

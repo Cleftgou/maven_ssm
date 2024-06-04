@@ -1,5 +1,6 @@
 package com.niu.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.niu.pojo.Student;
 import com.niu.service.StudentService;
 import jakarta.annotation.Resource;
@@ -109,6 +110,16 @@ public class StudentController {
 
         //跳转回主页面
         return "redirect:/StudentController/selectAll";
+    }
+
+    //分页控制器
+    @GetMapping("/getStuByPage/{pageNow}")
+    public ModelAndView getStuByPage(@PathVariable("pageNow") Integer pageNow, ModelAndView modelAndView) {
+        PageInfo<Student> page = studentService.getStuByPage(pageNow, 4);
+        //装载数据，并跳转
+        modelAndView.addObject("page", page);
+        modelAndView.setViewName("getStuByPage");
+        return modelAndView;
     }
 
 

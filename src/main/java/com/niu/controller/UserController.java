@@ -30,7 +30,7 @@ public class UserController {
         if (b) {
             session.setAttribute("uname", uname);
             //重定向跳转学生服务器，跳过视图解析器
-            return "redirect:/StudentController/selectAll";
+            return "redirect:/StudentController/getStuByPage/1";
         } else {
             session.setAttribute("error", "账号或密码错误");
             //重定向回登录界面
