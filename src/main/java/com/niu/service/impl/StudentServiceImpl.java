@@ -62,7 +62,6 @@ public class StudentServiceImpl implements StudentService {
         PageHelper.startPage(pageNow, pageSize, "stuNo desc");
         //调用全查功能，会自动分页
         List<Student> students = studentMapper.selectAll();
-        //新建一个pageInfo对象
         PageInfo<Student> pageInfo = new PageInfo<>(students);
         return pageInfo;
     }
