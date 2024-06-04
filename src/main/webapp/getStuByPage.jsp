@@ -5,7 +5,7 @@
   Time: 下午3:13
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
@@ -67,7 +67,7 @@
         <input type="number" name="maxAge" id="maxAge" value="${maxAge}">
     </p>
     <p>
-        <label for="cid">所在班级</label>
+        <label for="cid">所在班级:</label>
         <input type="hidden" id="cla" value="${cla}">
         <select name="cla" id="cid">
             <%--所选班级信息:班级的全查--%>

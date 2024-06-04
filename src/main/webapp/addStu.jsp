@@ -47,7 +47,7 @@
         </p>
         <p>
             <label for="stuAge">年龄</label>
-            <input type="number" name="stuAge" id="stuAge" required placeholder="请输入学生的年龄">
+            <input type="number" name="stuAge" id="stuAge" min="18" max="35" required placeholder="请输入学生的年龄">
         </p>
         <p>
             <label for="cid">所在班级</label>

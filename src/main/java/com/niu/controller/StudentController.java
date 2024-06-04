@@ -114,6 +114,7 @@ public class StudentController {
     }
 
     //分页控制器
+    //Spring MVC 默认会为其提供一个默认值，这取决于参数的类型Map<String,Object> map
     @GetMapping("/getStuByPage/{pageNow}")
     public ModelAndView getStuByPage(@PathVariable("pageNow") Integer pageNow, ModelAndView modelAndView,
                                      Integer stuNo, String stuName,
