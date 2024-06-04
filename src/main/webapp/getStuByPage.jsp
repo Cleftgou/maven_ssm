@@ -5,11 +5,12 @@
   Time: 下午3:13
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
     <title>学生列表</title>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.7.1.min.js"></script>
     <script>
         function delStu(stuNo){
             var bo = confirm("是否删除：" + stuNo + "的学生？")
@@ -24,11 +25,59 @@
                 location.href="${pageContext.request.contextPath}/StudentController/edit/" + stuNo
             }
         }
+        $(function (){
+            getAllCla();
+        });
+        function getAllCla() {
+            $.ajax({
+                url:"${pageContext.request.contextPath}/ClassController/getAllCla",
+                type:"get",
+                success:function (data){
+                    //获取学生所在的班级id
+                    var cid = $("#cla").val();
+                    $(data).each(function (){
+                        var option;
+                        if (this.cid == cid){
+                            option = $("<option value='"+this.cid+"'selected>"+this.cname+"</option>");
+                        }else{
+                            option = $("<option value='"+this.cid+"'>"+this.cname+"</option>");
+                        }
+                        $("#cid").append(option);
+                    })
+                },error:function (){
+                    alert("异步刷新失败")
+                }
+            })
+        }
     </script>
 </head>
 <body>
 <h1>学生列表界面</h1>
 <h1>欢迎${uname}进入</h1>
+
+<form action="${pageContext.request.contextPath}/StudentController/getStuByPage/1" method="get">
+    <label>学号:</label><input type="text" name="stuNo" value="${stuNo}">
+    <p>
+        <label for="stuName">姓名:</label>
+        <input type="text" name="stuName" id="stuName" value="${stuName}">
+    </p>
+    <p>
+        <label for="stuAge">年龄:</label>
+        <input type="number" name="minAge" id="stuAge" value="${minAge}">到
+        <input type="number" name="maxAge" id="maxAge" value="${maxAge}">
+    </p>
+    <p>
+        <label for="cid">所在班级</label>
+        <input type="hidden" id="cla" value="${cla}">
+        <select name="cla" id="cid">
+            <%--所选班级信息:班级的全查--%>
+            <option value="-1">--请选择班级--</option>
+        </select>
+    </p>
+    <p>
+        <input type="submit" value="搜索">
+    </p>
+</form>
 
 <button style="background-color: aqua; font-size: 20px;margin-top: 20px;margin-bottom: 20px"
         onclick="window.location.href='${pageContext.request.contextPath}/addStu.jsp'">新增学生</button>
@@ -76,7 +125,7 @@
         if (${page.isFirstPage}){
             alert("已经是第一页")
         }else {
-            location.href="${pageContext.request.contextPath}/StudentController/getStuByPage/1"
+            location.href="${pageContext.request.contextPath}/StudentController/getStuByPage/1?stuNo=${stuNo}&stuName=${stuName}&minAge=${minAge}&maxAge=${maxAge}&cla=${cla}"
         }
     }
     //上一页
@@ -84,7 +133,7 @@
         if (${page.isFirstPage}){
             alert("已经是第一页")
         }else {
-            location.href="${pageContext.request.contextPath}/StudentController/getStuByPage/${page.prePage}"
+            location.href="${pageContext.request.contextPath}/StudentController/getStuByPage/${page.prePage}?stuNo=${stuNo}&stuName=${stuName}&minAge=${minAge}&maxAge=${maxAge}&cla=${cla}"
         }
     }
     //下一页
@@ -92,7 +141,7 @@
         if (${page.isLastPage}){
             alert("已经是最后一页")
         }else {
-            location.href="${pageContext.request.contextPath}/StudentController/getStuByPage/${page.nextPage}"
+            location.href="${pageContext.request.contextPath}/StudentController/getStuByPage/${page.nextPage}?stuNo=${stuNo}&stuName=${stuName}&minAge=${minAge}&maxAge=${maxAge}&cla=${cla}"
         }
     }
     //尾页
@@ -100,7 +149,7 @@
         if (${page.isLastPage}){
             alert("已经是最后一页")
         }else {
-            location.href="${pageContext.request.contextPath}/StudentController/getStuByPage/${page.pages}"
+            location.href="${pageContext.request.contextPath}/StudentController/getStuByPage/${page.pages}?stuNo=${stuNo}&stuName=${stuName}&minAge=${minAge}&maxAge=${maxAge}&cla=${cla}"
         }
     }
 </script>

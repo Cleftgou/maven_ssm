@@ -18,17 +18,7 @@ import java.util.Map;
 public interface StudentMapper {
     //查询全部的学生
     //分页插件会把全查改成分页查询
-    List<Student> selectAll();
-
-    //根据任意条件查询学生(姓名，年龄，班级，班级简介)
-    List<Student> getStuBy(Map<String, Object> map);
-
-    //根据学生的姓名查询，只要姓名和年龄（条件可有可无）
-    List<Student> getStuByName(String stuName);
-
-
-    //查询指定id的方法，1001，1002，6005，2002
-    List<Student> getStuByIds(@Param("ids") List<Integer> ids);
+    List<Student> selectAll(Map<String,Object> map);
 
     //学生信息录入
     int addStu(Student student);

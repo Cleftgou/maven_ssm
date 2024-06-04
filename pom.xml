@@ -148,6 +148,20 @@
 
   <build>
     <finalName>maven_ssm</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version> <!-- 使用合适的版本 -->
+        <configuration>
+          <source>21</source> <!-- 使用你的Java源代码版本 -->
+          <target>21</target> <!-- 使用你的Java目标版本 -->
+          <compilerArgs>
+            <arg>-parameters</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
   <properties>

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author bairimengchang
@@ -114,8 +115,18 @@ public class StudentController {
 
     //分页控制器
     @GetMapping("/getStuByPage/{pageNow}")
-    public ModelAndView getStuByPage(@PathVariable("pageNow") Integer pageNow, ModelAndView modelAndView) {
-        PageInfo<Student> page = studentService.getStuByPage(pageNow, 4);
+    public ModelAndView getStuByPage(@PathVariable("pageNow") Integer pageNow, ModelAndView modelAndView,
+                                     Integer stuNo, String stuName,
+                                     Integer minAge,
+                                     Integer maxAge, Integer cla,
+                                     Map<String,Object> map) {
+        map.put("stuNo",stuNo);
+        map.put("stuName",stuName);
+        map.put("minAge",minAge);
+        map.put("maxAge",maxAge);
+        map.put("cla",cla);
+        PageInfo<Student> page = studentService.getStuByPage(pageNow, 4, map);
+        modelAndView.addObject("map", map);
         //装载数据，并跳转
         modelAndView.addObject("page", page);
         modelAndView.setViewName("getStuByPage");

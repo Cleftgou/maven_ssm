@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author bairimengchang
@@ -29,7 +31,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Student> getAllStu() {
-        List<Student> students = studentMapper.selectAll();
+        Map<String,Object> map = new HashMap<>();
+        List<Student> students = studentMapper.selectAll(map);
         return students;
     }
 
@@ -57,11 +60,11 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public PageInfo<Student> getStuByPage(int pageNow, int pageSize) {
+    public PageInfo<Student> getStuByPage(int pageNow, int pageSize, Map<String,Object> map) {
         //开启分页插件
         PageHelper.startPage(pageNow, pageSize, "stuNo desc");
         //调用全查功能，会自动分页
-        List<Student> students = studentMapper.selectAll();
+        List<Student> students = studentMapper.selectAll(map);
         PageInfo<Student> pageInfo = new PageInfo<>(students);
         return pageInfo;
     }

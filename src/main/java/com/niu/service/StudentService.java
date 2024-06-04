@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.niu.pojo.Student;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author bairimengchang
@@ -29,5 +30,5 @@ public interface StudentService {
     boolean addStu(Student stu);
 
     //定义一个分页的业务
-    PageInfo<Student> getStuByPage(int pageNow, int pageSize);
+    PageInfo<Student> getStuByPage(int pageNow, int pageSize, Map<String,Object> map);
 }

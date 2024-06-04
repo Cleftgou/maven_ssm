@@ -24,7 +24,22 @@
     <!-- 查询全部学生的sql语句: -->
     <select id="selectAll"  resultMap="stuMap">
         select stu.stuNo,stu.stuName,stu.stuAge,stu.stuImg,clazz.c_id,clazz.c_name,clazz.c_content
-        from student stu join class clazz on stu.cid = clazz.c_id;
+        from student stu join class clazz on stu.cid = clazz.c_id
+        <if test="stuNo != null">
+            and stu.stuNo = #{stuNo}
+        </if>
+        <if test="stuName != null and stuName.trim() !=''">
+            and stu.stuName like concat('%',#{stuName},'%')
+        </if>
+        <if test="minAge != null and minAge >= 18">
+            and stu.stuAge >= #{minAge}
+        </if>
+        <if test="maxAge != null and maxAge &lt;= 50">
+            and stu.stuAge &lt;= #{maxAge}
+        </if>
+        <if test="cla != null and cla != -1">
+            and stu.cid = #{cla}
+        </if>
     </select>
 
     <!--任意条件查询-->
